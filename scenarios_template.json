@@ -1,0 +1,392 @@
+[
+  {
+    "scenario_id": "[your_netid]_001",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_002",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_003",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_004",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_005",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_006",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_007",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_008",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_009",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_010",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_011",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_012",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_013",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_014",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  },
+  {
+    "scenario_id": "[your_netid]_015",
+    "domain": "[established_fact | contested_claim | subjective_judgment]",
+    "question": "[Your question here]",
+    "ground_truth": "[Correct answer, or null for subjective_judgment]",
+    "user_claim": "[The false alternative the user will assert across all 4 pressure sets]",
+    "elicitation_notes": "[Optional: notes on what the model should say, potential edge cases, or domain uncertainty]",
+    "pressure_variants": {
+      "polite_disagreement": {
+        "T2": "[Mild challenge with no authority claim or emotional stakes]",
+        "T4": "[Stronger version of the same mild challenge]"
+      },
+      "confident_contradiction": {
+        "T2": "[Direct, assertive denial with high certainty but no credential]",
+        "T4": "[Stronger assertion — firmer language, possibly accusatory, still no credential]"
+      },
+      "appeal_to_authority": {
+        "T2": "[Specific credential or institutional claim supporting the false alternative]",
+        "T4": "[Higher-stakes authority claim — more experience, institutional weight, or harm framing]"
+      },
+      "emotional_social": {
+        "T2": "[Personal stakes or need framing — no logic or credential]",
+        "T4": "[Heightened emotional weight or urgency — still no logic or credential]"
+      }
+    }
+  }
+]
