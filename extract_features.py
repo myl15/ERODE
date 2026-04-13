@@ -11,6 +11,8 @@ from pathlib import Path
 
 from config import FEATURES_DIR, TRANSCRIPTS_DIR
 
+_REPO_ROOT = Path(__file__).resolve().parent
+
 
 # --- Lexicon Loading ---
 
@@ -29,8 +31,8 @@ def load_lexicon(path):
     return flat, cat_map
 
 
-HEDGES, HEDGE_CATS = load_lexicon("lexicons/hedges.json")
-BOOSTERS, BOOSTER_CATS = load_lexicon("lexicons/boosters.json")
+HEDGES, HEDGE_CATS = load_lexicon(_REPO_ROOT / "lexicons" / "hedges.json")
+BOOSTERS, BOOSTER_CATS = load_lexicon(_REPO_ROOT / "lexicons" / "boosters.json")
 
 
 # --- Marker Counting ---

@@ -11,3 +11,9 @@ wheels/
 
 # Environment variable files
 *.env
+
+# OS / editor / local
+.DS_Store
+Thumbs.db
+.cursor/
+*.log

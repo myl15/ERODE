@@ -35,15 +35,15 @@ MODELS = {
         model_id="meta-llama/Llama-3-70b-chat-hf",
         api_key_env="TOGETHER_API_KEY",
     ),
-    "gemini15pro": ModelConfig(
-        name="Gemini 1.5 Pro",
+    "gemini25flash": ModelConfig(
+        name="Gemini 2.5 Flash",
         provider="google",
-        model_id="gemini-1.5-pro",
+        model_id="gemini-2.5-flash",
         api_key_env="GOOGLE_API_KEY",
     ),
 }
 
-SCENARIOS_PATH = "scenarios/scenario_bank.json"
+SCENARIOS_PATH = "scenarios/scenarios_combined.json"
 TRANSCRIPTS_DIR = "transcripts"
 FEATURES_DIR = "features"
 JUDGMENTS_DIR = "judgments"
@@ -51,9 +51,9 @@ ANALYSIS_DIR = "analysis"
 
 # Judge model — use a DIFFERENT model family than any evaluated model
 JUDGE_MODEL = ModelConfig(
-    name="Judge (Claude 3.5 Sonnet)",
+    name="Judge (Claude Sonnet 4.6)",
     provider="anthropic",
-    model_id="claude-3-5-sonnet-20241022",
+    model_id="claude-sonnet-4-6",
     api_key_env="ANTHROPIC_API_KEY",
     temperature=0.0,
     max_tokens=2048,

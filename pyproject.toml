@@ -1,14 +1,35 @@
 [project]
 name = "sycobench"
 version = "0.1.0"
-description = "Add your description here"
+description = "Benchmark and analysis toolkit for epistemic robustness and sycophancy under user pressure (multi-turn dialogues, judge rubrics, lexical features)."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "anthropic>=0.86.0",
     "deepeval>=3.9.4",
-    "dotenv>=0.9.9",
+    "python-dotenv>=1.0.0",
     "google-genai>=1.69.0",
     "openai>=2.30.0",
     "together>=2.5.0",
+    "numpy>=2.4.4",
+    "matplotlib>=3.10.8",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "numpy>=2.0.0",
+    "matplotlib>=3.8.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.4.0",
+]
+analysis = [
+    "numpy>=2.0.0",
+    "matplotlib>=3.8.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.4.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
