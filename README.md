@@ -1,33 +1,39 @@
-# SycoBench
+# ERODE
 
-**SycoBench** is a research benchmark and analysis pipeline for measuring how **instruction-tuned LLMs** respond when users apply **social and rhetorical pressure** across **knowledge domains** (established facts, contested claims, subjective judgments). The project combines **multi-turn scripted dialogues**, an **independent LLM judge**, **lexical features** (hedging, boosters), and **publication-style figures** for papers and talks.
+**ERODE** (Epistemic Robustness under Oppositional Dialogue Evaluation) is a research benchmark and analysis pipeline for measuring how **instruction-tuned LLMs** respond when users apply **social and rhetorical pressure** across **knowledge domains** (established facts, contested claims, subjective judgments). The project combines **multi-turn scripted dialogues**, an **independent LLM judge**, **lexical features** (hedging, boosters), and **publication-style figures** for papers and talks.
 
 ---
 
-## Highlights (current results)
+## Highlights (conference paper bundle)
 
-Results below are from the bundled **GPT-4o** vs **Gemini 2.5 Flash** runs (`judgments/`, `features/`) and [`analysis/metrics_summary.json`](analysis/metrics_summary.json). Re-run the pipeline to refresh numbers.
+Headline numbers, figures, and **inferential outputs** for the paper use the **GLM-5.1 judge** snapshot in [`analysis/glm_z1_judged/`](analysis/glm_z1_judged/) ([`metrics_summary.json`](analysis/glm_z1_judged/metrics_summary.json), [`significance_summary.json`](analysis/glm_z1_judged/significance_summary.json), plus the split files [`significance_main_baseline_vs_others.json`](analysis/glm_z1_judged/significance_main_baseline_vs_others.json) and [`significance_appendix_pairwise.json`](analysis/glm_z1_judged/significance_appendix_pairwise.json)). Evaluated targets: **Claude Sonnet 4.6**, **Llama 3 70B**, **Gemini 2.5 Flash**, and **GPT-4o** (same keys as in the metrics JSON).
 
-For inferential reporting in a paper (effect sizes, confidence intervals, FDR-adjusted p-values, and Fisher exact tests with Bonferroni correction), see [`analysis/SIGNIFICANCE_METHODS.md`](analysis/SIGNIFICANCE_METHODS.md) and generated outputs in `analysis/significance_*.json`.
+Methods for permutation tests, bootstrap CIs, Benjamini–Hochberg FDR, and Fisher exact tests are documented in [`analysis/SIGNIFICANCE_METHODS.md`](analysis/SIGNIFICANCE_METHODS.md).
 
-| Metric (pooled) | GPT-4o | Gemini 2.5 Flash |
-|-----------------|--------|-------------------|
-| **Overall sycophancy rate** | ~12% | ~19% |
-| **Overall ERS** (higher = better) | ~3.67 | ~3.78 |
+### Main inferential claims (this judge, four models)
 
-**By domain — sycophancy rate (committed T1 → capitulation at T5):**
+1. **Claude vs every other model (overall sycophancy rate).** Claude has a **significantly lower** pooled sycophancy rate than Llama 3 70B, Gemini 2.5 Flash, and GPT-4o. In `significance_summary.json`, the **baseline-vs-others** family uses **Claude as `model_a`**; for `metric == "sycophancy_rate"` and `scope_key == "overall"`, all three comparisons have **FDR-adjusted *p* ≈ 0.0066** (α = 0.05), with bootstrap 95% CIs on the risk difference (Claude minus other) strictly **below zero** (roughly **−27 to −11 points** vs Llama, **−22 to −6.5** vs Gemini, **−20 to −5.6** vs GPT-4o). Point estimates: Claude **~2.1%** vs **~20.7%** / **~15.9%** / **~14.7%** on the other three.
 
-| Domain | GPT-4o | Gemini |
-|--------|--------|--------|
-| Established fact | ~2% | ~4% |
-| Contested claim | ~27% | ~29% |
-| Subjective judgment | ~33% | ~41% |
+2. **Contested-claim domain vs other domains (within-model Fisher, Bonferroni).** For **Gemini**, **GPT-4o**, and **Llama**, **contested-claim** scenarios carry the **highest** pointwise sycophancy rate among the three knowledge domains. **Claude** is an edge case (0% on both established-fact and contested-claim eligible dialogues in this run, with a small nonzero rate only on subjective judgment), but **Claude vs each other model on contested claims alone** still shows a large gap: Fisher exact **Bonferroni-adjusted *p* < 0.002** for every pairwise model contrast (Claude **0 / 46** vs **7–15 / 28–37** on the others).
 
-**By pressure type:** Gemini shows **non-trivial capitulation under polite disagreement** (~15% pooled); GPT-4o is **~0%** there. Under **emotional/social** pressure, **GPT-4o** is higher (~26% vs ~21% pooled).
+3. **Domain gradient (established fact → contested claim → subjective judgment).** The paper reads a **directionally consistent** gradient along this epistemic axis: **all four models** are weakest on **established-fact** scenarios (near-zero SR for Claude; low single digits for Llama and GPT-4o; still lowest for Gemini), with substantially higher rates in the **contested** and **subjective** strata. In raw point estimates, **Gemini**, **GPT-4o**, and **Llama** peak on **contested claims** rather than subjective judgment; **Claude** is mostly flat at zero until subjective. **Multiplicity-adjusted domain Fisher tests** (`results.fisher_domain_pairwise_per_model` in `significance_summary.json`) nevertheless reject equality only for **Llama 3 70B** (Bonferroni-significant for established vs contested and established vs subjective; contested vs subjective **not** significant). **Gemini** and **GPT-4o** do **not** clear Bonferroni at α = 0.05; **Claude** has too few events for domain contrasts to be informative.
 
-**Interaction (domain × pressure):** The worst pocket in this snapshot is **GPT-4o on contested claims under emotional/social pressure** (~**67%** SR, **n = 6** eligible, **ERS ~2.71** in that cell). **Subjective** cells for GPT-4o often have **very small `n`** (many opens are judge-labeled `EQUIVOCATE` at T1, so they drop out of the SR denominator); Gemini has **more** committed subjective opens (**22** vs **6** eligible), so subjective percentages are **more stable** for Gemini.
+| Metric (pooled) | Claude Sonnet 4.6 | Llama 3 70B | Gemini 2.5 Flash | GPT-4o |
+|-----------------|-------------------|-------------|-------------------|--------|
+| **Overall sycophancy rate** | ~2.1% | ~20.7% | ~15.9% | ~14.7% |
+| **Overall ERS** (higher = better) | ~4.81 | ~3.92 | ~4.11 | ~4.26 |
 
-For definitions of **SR**, **ERS**, **hedge drift**, and eligibility, see [**Figure guide**](analysis/FIGURE_GUIDE.md). For a **~3 minute talk outline** with the same numbers, see [**Presentation notes**](analysis/PRESENTATION_3MIN.md).
+**By domain — sycophancy rate (eligible T1 → capitulation at T5):**
+
+| Domain | Claude | Llama | Gemini | GPT-4o |
+|--------|--------|-------|--------|--------|
+| Established fact | ~0% | ~2% | ~7% | ~2% |
+| Contested claim | ~0% | ~41% | ~25% | ~24% |
+| Subjective judgment | ~7% | ~26% | ~20% | ~21% |
+
+Re-run [`generate_visuals.py`](generate_visuals.py) (and the upstream dialogue / feature / judge steps) to refresh numbers; by default artifacts land under [`analysis/`](analysis/) unless you configure a different output directory.
+
+For definitions of **SR**, **ERS**, **hedge drift**, and eligibility, see [**Figure guide**](analysis/FIGURE_GUIDE.md). For a **~3 minute talk outline** with the same numbers, see [**Presentation notes**](analysis/PRESENTATION_3MIN.md) (update figures if you switch judge bundles).
 
 ---
 
@@ -42,7 +48,7 @@ For definitions of **SR**, **ERS**, **hedge drift**, and eligibility, see [**Fig
 | [`metrics.py`](metrics.py) | Aggregate metrics → consumed by `generate_visuals.py`. |
 | [`analyze.py`](analyze.py) | Matplotlib figures. |
 | [`generate_visuals.py`](generate_visuals.py) | Writes `analysis/metrics_summary.json` and all figures. |
-| [`analysis/`](analysis/) | Figures, metrics JSON, and documentation (`FIGURE_GUIDE.md`, `PRESENTATION_3MIN.md`). |
+| [`analysis/`](analysis/) | Figures, metrics JSON, significance JSON, and documentation (`FIGURE_GUIDE.md`, `PRESENTATION_3MIN.md`). Subfolder [`analysis/glm_z1_judged/`](analysis/glm_z1_judged/) is the GLM-5.1 judge bundle used in the paper. |
 | [`config.py`](config.py) | Model registry, paths, judge model config. |
 
 ---
@@ -84,19 +90,22 @@ Set API keys as needed for models you run (see `config.py`):
 4. **Metrics and figures**
 
    ```bash
-   uv run python generate_visuals.py gpt4o claude_sonnet46 llama3_70b gemini25flash
+   uv run python generate_visuals.py claude_sonnet46 llama3_70b gemini25flash gpt4o
    ```
 
-This writes [`analysis/metrics_summary.json`](analysis/metrics_summary.json) and the PNGs listed below.
-It also writes significance artifacts:
+   The **first** model key is the significance **baseline** (`model_a` in `main_baseline_vs_others`); use `claude_sonnet46` first to match the paper’s Claude-centered contrasts.
+
+This writes [`analysis/metrics_summary.json`](analysis/metrics_summary.json) and the PNGs listed below (paths follow `config.ANALYSIS_DIR`, usually `analysis/`). It also writes significance artifacts alongside them:
 
 - `analysis/significance_summary.json`
 - `analysis/significance_main_baseline_vs_others.json`
 - `analysis/significance_appendix_pairwise.json`
 
-Key significance details now included in outputs:
+The **conference paper** freezes the same file names under [`analysis/glm_z1_judged/`](analysis/glm_z1_judged/) for the GLM-5.1 judge run.
 
-- Wilson score confidence intervals for sycophancy-rate summaries/cells (`sycophancy_rate_wilson_ci` in `analysis/metrics_summary.json`)
+Key significance details included in outputs:
+
+- Wilson score confidence intervals for sycophancy-rate summaries/cells (`sycophancy_rate_wilson_ci` in `metrics_summary.json`)
 - Fisher exact (Bonferroni-corrected) domain pairwise comparisons within each model
 - Fisher exact (Bonferroni-corrected) Claude-vs-other-model comparisons on contested-claim sycophancy
 
@@ -104,7 +113,7 @@ Key significance details now included in outputs:
 
 ## Figures (`analysis/`)
 
-All are produced by [`generate_visuals.py`](generate_visuals.py). **Scales, metrics, and interpretation** are documented in [**`analysis/FIGURE_GUIDE.md`**](analysis/FIGURE_GUIDE.md).
+All are produced by [`generate_visuals.py`](generate_visuals.py). Paper figures match the PNGs in [`analysis/glm_z1_judged/`](analysis/glm_z1_judged/) for the four-model GLM-judged run. **Scales, metrics, and interpretation** are documented in [**`analysis/FIGURE_GUIDE.md`**](analysis/FIGURE_GUIDE.md).
 
 | File | What it shows |
 |------|----------------|
@@ -150,4 +159,4 @@ The default judge is configured in [`config.py`](config.py) (`JUDGE_MODEL`). Use
 
 ## License and citation
 
-Add your **license** and **citation** (paper, course project, or DOI) in this section before public release if required by your institution.
+All work is open-source and free for research use.
