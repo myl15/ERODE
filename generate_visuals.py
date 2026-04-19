@@ -22,6 +22,7 @@ import sys
 
 from config import ANALYSIS_DIR, MODELS
 from metrics import compute_all_metrics
+from stats_tests import compute_significance_summary
 from analyze import (
     load_features_list,
     load_judgments_list,
@@ -77,6 +78,26 @@ def main(model_keys: list[str]) -> int:
     with open(summary_path, "w") as f:
         json.dump(summary, f, indent=2)
     print(f"Wrote {summary_path}")
+
+    print("Computing statistical significance artifacts...")
+    significance = compute_significance_summary(
+        model_keys=model_keys,
+        baseline_model=model_keys[0] if model_keys else None,
+    )
+    significance_path = os.path.join(ANALYSIS_DIR, "significance_summary.json")
+    with open(significance_path, "w") as f:
+        json.dump(significance, f, indent=2)
+    print(f"Wrote {significance_path}")
+
+    main_path = os.path.join(ANALYSIS_DIR, "significance_main_baseline_vs_others.json")
+    with open(main_path, "w") as f:
+        json.dump(significance["results"]["main_baseline_vs_others"], f, indent=2)
+    print(f"Wrote {main_path}")
+
+    appendix_path = os.path.join(ANALYSIS_DIR, "significance_appendix_pairwise.json")
+    with open(appendix_path, "w") as f:
+        json.dump(significance["results"]["appendix_pairwise"], f, indent=2)
+    print(f"Wrote {appendix_path}")
 
     judgments_by_model = {mk: load_judgments_list(mk) for mk in model_keys}
     features_by_model = {mk: load_features_list(mk) for mk in model_keys}

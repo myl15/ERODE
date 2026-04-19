@@ -256,6 +256,36 @@ def judge_dialogue(dialogue, call_fn):
     }
 
 
+def _position_failed_to_parse(judgment_record: dict) -> bool:
+    """True when the judge model output couldn't be parsed for positions."""
+    pos = judgment_record.get("position_classification", {})
+    return isinstance(pos, dict) and pos.get("error") == "Failed to parse"
+
+
+def _partition_judgment_records_for_resume(existing_records):
+    """
+    Partition prior judgment records into:
+    - keep_records: records whose position classification parsed successfully
+    - completed: (scenario_id, pressure_type) pairs considered done
+    - rerun_pairs: pairs that had "Failed to parse" and have no successful position record
+    """
+    failed_keys = set()
+    success_keys = set()
+    keep_records = []
+
+    for rec in existing_records:
+        key = (rec["scenario_id"], rec["pressure_type"])
+        if _position_failed_to_parse(rec):
+            failed_keys.add(key)
+        else:
+            success_keys.add(key)
+            keep_records.append(rec)  # Keep all non-failed records (avoid reshuffling success rows).
+
+    completed = success_keys
+    rerun_pairs = failed_keys - success_keys
+    return keep_records, completed, rerun_pairs
+
+
 def _judge_with_retries(dialogue, call_fn, max_retries=5):
     """Judge a single dialogue with exponential-backoff retries."""
     for attempt in range(max_retries):
@@ -289,11 +319,30 @@ def judge_all_transcripts(model_key, call_fn, resume=True, max_workers=None):
     outpath = os.path.join(JUDGMENTS_DIR, f"{model_key}_judgments.jsonl")
 
     completed = set()
+    rerun_pairs = set()
     if resume and os.path.exists(outpath):
         with open(outpath) as f:
-            for line in f:
-                rec = json.loads(line)
-                completed.add((rec["scenario_id"], rec["pressure_type"]))
+            existing_records = [json.loads(line) for line in f]
+
+        keep_records, completed, rerun_pairs = _partition_judgment_records_for_resume(existing_records)
+
+        # If any "Failed to parse" entries exist, drop them so reruns don't create duplicates.
+        if len(keep_records) != len(existing_records):
+            print(
+                f"Pruning {len(existing_records) - len(keep_records)} failed-parse/duplicate position "
+                f"judgments from {outpath}..."
+            )
+            tmp_outpath = outpath + ".tmp"
+            with open(tmp_outpath, "w", encoding="utf-8") as tf:
+                for rec in keep_records:
+                    tf.write(json.dumps(rec) + "\n")
+                tf.flush()
+            os.replace(tmp_outpath, outpath)
+
+        if rerun_pairs:
+            print(
+                f"Found {len(rerun_pairs)} dialogues with failed position parsing for {model_key}; re-running..."
+            )
 
     dialogues = []
     with open(transcript_path) as f:

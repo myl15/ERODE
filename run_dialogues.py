@@ -24,6 +24,41 @@ def _safe_assistant_text(text) -> str:
     return "" if text is None else str(text)
 
 
+def _is_rate_limit_error(exc: Exception) -> bool:
+    """Best-effort detection for provider rate-limit failures."""
+    text = str(exc).lower()
+    # Covers common provider responses/statuses across SDKs.
+    return any(token in text for token in ("rate limit", "too many requests", "429"))
+
+
+def _call_with_retries(model_cfg, messages, call_fn, max_retries=5, base_wait=10):
+    """
+    Call a provider function with retries for rate-limit/transient API failures.
+    Returns (response_text, usage_dict, model_version).
+    """
+    for attempt in range(max_retries):
+        try:
+            return call_fn(model_cfg, messages)
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+
+            # Back off aggressively on rate limits; otherwise still retry for transient failures.
+            if _is_rate_limit_error(e):
+                wait = 2**attempt * base_wait  # 10, 20, 40, 80, 160s
+                print(
+                    f"  RETRY {attempt+1}/{max_retries}: rate-limited by {model_cfg.provider} "
+                    f"({model_cfg.model_id}) -> waiting {wait}s | {e}"
+                )
+            else:
+                wait = min(2**attempt * 5, 60)  # 5, 10, 20, 40, 60s
+                print(
+                    f"  RETRY {attempt+1}/{max_retries}: transient API failure from "
+                    f"{model_cfg.provider} ({model_cfg.model_id}) -> waiting {wait}s | {e}"
+                )
+            time.sleep(wait)
+
+
 # --- Provider-specific API wrappers ---
 
 
@@ -190,6 +225,7 @@ def call_together(model_cfg, messages):
         {
             "prompt_tokens": getattr(usage, "prompt_tokens", 0) or 0,
             "completion_tokens": getattr(usage, "completion_tokens", 0) or 0,
+            "finish_reason": response.choices[0].finish_reason,
         },
         response.model,
     )
@@ -228,6 +264,8 @@ def run_dialogue(model_cfg, scenario, pressure_type, call_fn=None):
         call_fn = get_call_fn(model_cfg)
     pressure = scenario["pressure_variants"][pressure_type]
 
+
+    
     messages = [{"role": "system", "content": model_cfg.system_prompt}]
     turns = []
 
@@ -237,7 +275,7 @@ def run_dialogue(model_cfg, scenario, pressure_type, call_fn=None):
     turns.append({"turn": "T0", "role": "user", "content": t0_content})
 
     # T1: Model initial response
-    t1_text, t1_usage, model_version = call_fn(model_cfg, messages)
+    t1_text, t1_usage, model_version = _call_with_retries(model_cfg, messages, call_fn)
     messages.append({"role": "assistant", "content": t1_text})
     turns.append({"turn": "T1", "role": "assistant", "content": t1_text, "usage": t1_usage})
 
@@ -247,7 +285,7 @@ def run_dialogue(model_cfg, scenario, pressure_type, call_fn=None):
     turns.append({"turn": "T2", "role": "user", "content": t2_content})
 
     # T3: Model response under pressure
-    t3_text, t3_usage, _ = call_fn(model_cfg, messages)
+    t3_text, t3_usage, _ = _call_with_retries(model_cfg, messages, call_fn)
     messages.append({"role": "assistant", "content": t3_text})
     turns.append({"turn": "T3", "role": "assistant", "content": t3_text, "usage": t3_usage})
     #time.sleep(4)
@@ -258,9 +296,20 @@ def run_dialogue(model_cfg, scenario, pressure_type, call_fn=None):
     turns.append({"turn": "T4", "role": "user", "content": t4_content})
 
     # T5: Final model response
-    t5_text, t5_usage, _ = call_fn(model_cfg, messages)
+    t5_text, t5_usage, _ = _call_with_retries(model_cfg, messages, call_fn)
     messages.append({"role": "assistant", "content": t5_text})
     turns.append({"turn": "T5", "role": "assistant", "content": t5_text, "usage": t5_usage})
+
+    if t5_text.strip() == "":
+        print(f"T5 text is empty for {scenario['scenario_id']} | {pressure_type}")
+        print(f"Messages: {messages}")
+        print(f"Turns: {turns}")
+        print(f"Model version: {model_version}")
+        print(f"Model config: {model_cfg}")
+        print(f"Pressure: {pressure}")
+        print(f"Pressure type: {pressure_type}")
+        print(f"Scenario: {scenario}")
+        print(f"Model config: {model_cfg}")
 
     return {
         "scenario_id": scenario["scenario_id"],

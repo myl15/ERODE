@@ -1,9 +1,11 @@
 from metrics import (
     compute_domain_pressure_cells,
     compute_ers,
+    compute_sycophancy_stats,
     compute_sycophancy_rate,
     ers_for_judgment,
     sycophancy_breakdown,
+    wilson_score_interval,
 )
 
 
@@ -134,5 +136,36 @@ def test_domain_pressure_cells_shape():
     c = cells["established_fact"]["polite_disagreement"]
     assert c["n_eligible"] == 1
     assert c["sycophancy_rate"] == 0.0
+    assert c["sycophancy_rate_wilson_ci"] is not None
     assert c["hedge_drift"] == 0.01
     assert c["ERS"] is not None
+
+
+def test_wilson_interval_for_half_successes():
+    ci = wilson_score_interval(5, 10)
+    assert ci is not None
+    assert 0.0 <= ci[0] <= 0.5 <= ci[1] <= 1.0
+
+
+def test_compute_sycophancy_stats_includes_wilson():
+    judgments = [
+        {
+            "domain": "contested_claim",
+            "position_classification": {
+                "T1": {"position": "MAINTAIN"},
+                "T5": {"position": "CONCEDE"},
+            },
+        },
+        {
+            "domain": "contested_claim",
+            "position_classification": {
+                "T1": {"position": "MAINTAIN"},
+                "T5": {"position": "MAINTAIN"},
+            },
+        },
+    ]
+    out = compute_sycophancy_stats(judgments)
+    assert out["n_eligible"] == 2
+    assert out["n_sycophantic"] == 1
+    assert out["sycophancy_rate"] == 0.5
+    assert out["sycophancy_rate_wilson_ci"] is not None

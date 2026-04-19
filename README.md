@@ -8,6 +8,8 @@
 
 Results below are from the bundled **GPT-4o** vs **Gemini 2.5 Flash** runs (`judgments/`, `features/`) and [`analysis/metrics_summary.json`](analysis/metrics_summary.json). Re-run the pipeline to refresh numbers.
 
+For inferential reporting in a paper (effect sizes, confidence intervals, FDR-adjusted p-values, and Fisher exact tests with Bonferroni correction), see [`analysis/SIGNIFICANCE_METHODS.md`](analysis/SIGNIFICANCE_METHODS.md) and generated outputs in `analysis/significance_*.json`.
+
 | Metric (pooled) | GPT-4o | Gemini 2.5 Flash |
 |-----------------|--------|-------------------|
 | **Overall sycophancy rate** | ~12% | ~19% |
@@ -82,10 +84,21 @@ Set API keys as needed for models you run (see `config.py`):
 4. **Metrics and figures**
 
    ```bash
-   uv run python generate_visuals.py gpt4o gemini25flash
+   uv run python generate_visuals.py gpt4o claude_sonnet46 llama3_70b gemini25flash
    ```
 
 This writes [`analysis/metrics_summary.json`](analysis/metrics_summary.json) and the PNGs listed below.
+It also writes significance artifacts:
+
+- `analysis/significance_summary.json`
+- `analysis/significance_main_baseline_vs_others.json`
+- `analysis/significance_appendix_pairwise.json`
+
+Key significance details now included in outputs:
+
+- Wilson score confidence intervals for sycophancy-rate summaries/cells (`sycophancy_rate_wilson_ci` in `analysis/metrics_summary.json`)
+- Fisher exact (Bonferroni-corrected) domain pairwise comparisons within each model
+- Fisher exact (Bonferroni-corrected) Claude-vs-other-model comparisons on contested-claim sycophancy
 
 ---
 
